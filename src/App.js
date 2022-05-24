@@ -1,26 +1,63 @@
 import "./App.css";
-import Profile from "./components/Profile";
-import { useState } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  NavLink,
+} from "react-router-dom";
+import Card from "./components/shared/Card";
+//import pages
+import About from "./components/pages/About";
+import Wizard from "./components/pages/Wizard";
+import JobsPage from "./components/pages/JobsPage";
+import Profile from "./components/pages/Profile";
+
+//import Context
+import { JobProvider } from "./context/JobContext";
 import JobList from "./components/JobList";
-import JobForm from "./components/JobForm";
-import ProfileData from "./data/ProfileData";
-import EmploymentData from "./data/EmploymentData";
+import ProfileList from "./components/ProfileList";
+import ProfilePage from "./components/pages/Profile";
 
 function App() {
-  const [profile, setProfile] = useState(ProfileData);
-  const [job, setJobs] = useState(EmploymentData);
-
-  const deleteJob = (id) => {
-    if (window.confirm("Are you sure you want to remove this job?")) {
-      setJobs(job.filter((job) => job.id !== id));
-    }
-  };
-
   return (
-    <>
-      <JobForm />
-      <JobList job={job} handleDelete={deleteJob} />
-    </>
+    <JobProvider>
+      <Router>
+        <Card>
+          <NavLink to="/" activeClassName="active">
+            Home
+          </NavLink>
+          <NavLink to="/about" activeClassName="active">
+            About
+          </NavLink>
+          <NavLink to="/wizard" activeClassName="active">
+            CV Wizard
+          </NavLink>
+          <NavLink to="/profile" activeClassName="active">
+            Profile
+          </NavLink>
+          <NavLink to="/jobs" activeClassName="active">
+            Employment History
+          </NavLink>
+        </Card>
+        <Routes>
+          <Route
+            exact
+            path="/"
+            element={
+              <>
+                <h1>Home</h1>
+                <ProfilePage />
+                <JobList />
+              </>
+            }
+          ></Route>
+          <Route path="/about" element={<About />} />
+          <Route path="/wizard" element={<Wizard />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/jobs" element={<JobsPage />} />
+        </Routes>
+      </Router>
+    </JobProvider>
   );
 }
 

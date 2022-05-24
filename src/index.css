@@ -21,3 +21,9 @@ code {
   position: relative;
   border: 1px solid black;
 }
+
+.active {
+  background-color: blue;
+  color: white;
+  padding: 1rem;
+}

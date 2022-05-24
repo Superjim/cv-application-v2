@@ -1,24 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import Job from "./Job";
-import Proptypes from "prop-types";
+import JobContext from "../context/JobContext";
 
-function JobList({ job, handleDelete }) {
+function JobList() {
+  const { job } = useContext(JobContext);
   // If no jobs in job list, display no jobs added
   if (!job || job.length === 0) {
     return <p>No jobs added</p>;
   }
-  console.log(job);
   return (
     <div className="job-list">
       {job.map((job) => (
-        <Job key={job.id} job={job} handleDelete={handleDelete} />
+        <Job key={job.id} job={job} />
       ))}
     </div>
   );
 }
-
-JobList.propTypes = {
-  job: Proptypes.array,
-};
 
 export default JobList;
